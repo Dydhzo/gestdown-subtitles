@@ -231,6 +231,7 @@ docker-compose up  # Start with Docker
 ## 🙏 Acknowledgments
 
 - **Gestdown API** - For providing the subtitle data
+- **[stremio-addic7ed](https://github.com/dexter21767/stremio-addic7ed)** - The boilerplate and structure of this addon were based on this project.
 - **sub2vtt** - Thanks to [dexter21767](https://github.com/dexter21767/sub2vtt) for the original project
 - **Addic7ed** - For the original subtitle database
 - **TMDB** - For metadata and series information
