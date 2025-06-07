@@ -1,0 +1,9 @@
+services:
+  gestdown-subtitles:
+    image: dydhzo/gestdown-subtitles:latest
+    container_name: gestdown-subtitles
+    ports:
+      - "64395:64395"
+    env_file:
+      - .env
+    restart: unless-stopped

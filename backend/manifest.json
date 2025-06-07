@@ -1,0 +1,27 @@
+{
+    "id": "community.gestdown-subtitles",
+    "version": "1.0.0",
+    "name": "Gestdown Subtitles",
+    "description": "Subtitle addon using the Gestdown API. For all your favorite series.",
+    "logo": "https://raw.githubusercontent.com/Dydhzo/gestdown-subtitles/refs/heads/main/frontend/public/gestdown-logos.png",
+    "background": "https://raw.githubusercontent.com/Dydhzo/gestdown-subtitles/refs/heads/main/frontend/public/gestdown-background.png",
+    "contactEmail": "",
+    "catalogs": [],
+    "resources": [{
+            "name": "subtitles",
+            "types": [
+                "series"
+            ],
+            "idPrefixes": [
+                "tt"
+            ]
+        }
+    ],
+    "types": [
+            "subtitles"
+    ],
+    "behaviorHints": {
+        "configurable": true,
+        "configurationRequired": true
+    }
+}
