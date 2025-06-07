@@ -142,6 +142,7 @@ gestdown-subtitles/
 | `/:config/manifest.json`      | GET    | Configured manifest     |
 | `/:config/subtitles/:type/:id.json`| GET    | Subtitle search         |
 | `/languages.json`             | GET    | Available languages     |
+| `/sub.vtt`                    | GET    | On-the-fly VTT conversion|
 
 ## 🔄 How It Works
 
