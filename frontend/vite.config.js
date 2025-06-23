@@ -1,10 +1,14 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
-export default defineConfig({
-  plugins: [vue()],
-  resolve: {
+export default defineConfig(({ mode }) => {
+  // Load env file for the current mode
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [vue()],
+    resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
@@ -13,7 +17,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:64395',
+        target: `http://localhost:${env.PORT || 64395}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
@@ -30,4 +34,5 @@ export default defineConfig({
       }
     }
   }
+}
 })
