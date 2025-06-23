@@ -190,9 +190,9 @@ services:
     image: dydhzo/gestdown-subtitles:latest
     container_name: gestdown-subtitles
     ports:
-      - "8080:8080"  # Example: Map container port 8080 to host port 8080
+      - "64395:64395"  # Example: Map container port 64395 to host port 64395
     environment:
-      - PORT=8080 # Tell the container to run on port 8080
+      - PORT=64395 # Tell the container to run on port 64395
       - TMDB_API=your_tmdb_api_key_here
       - CONFIG_URL=https://your-domain.com
     restart: unless-stopped
