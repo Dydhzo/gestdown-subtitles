@@ -46,13 +46,22 @@ gestdown-subtitles/
    ```
 
 2. **Configure environment:**
-   Edit the `.env` file and add your TMDB API key:
+   Create a `.env` file by copying `.env.example` (if it exists) or creating it from scratch. Then, edit it:
    ```env
+   # The environment mode, 'production' or 'development'
    NODE_ENV=production
+
+   # The port the server will run on. Change this if 64395 is in use.
    PORT=64395
+
+   # Your TMDB API key (required)
    TMDB_API=your_tmdb_api_key_here
+
+   # The public-facing URL for the addon configuration.
+   # For local Docker, this should be http://localhost:PORT
    CONFIG_URL=http://localhost:64395
    ```
+   **Note:** Make sure the `PORT` in `CONFIG_URL` matches the `PORT` variable above.
 
 3. **Start with Docker:**
    ```bash
@@ -60,7 +69,7 @@ gestdown-subtitles/
    ```
 
 4. **Access the addon:**
-   - Configuration: http://localhost:64395/configure
+   - The configuration URL is defined by `CONFIG_URL` in your `.env` file. By default, it is: http://localhost:64395/configure
 
 ### Option 2: Manual Development
 
@@ -75,12 +84,14 @@ gestdown-subtitles/
 
 2. **Configure environment:**
    ```bash
-   # Create .env file in root directory
+   Create a `.env` file in the root directory and configure it for development:
+   ```env
    NODE_ENV=development
    PORT=64395
    TMDB_API=your_tmdb_api_key_here
    CONFIG_URL=http://localhost:64395
    ```
+   **Note:** The frontend dev server runs on port 3000 and will proxy requests to the backend on the `PORT` specified above.
 
 3. **Start development servers:**
    ```bash
@@ -98,9 +109,9 @@ gestdown-subtitles/
 | Variable   | Description         | Required | Default           |
 |------------|---------------------|----------|-------------------|
 | `NODE_ENV` | Environment mode    | No       | `production`      |
-| `PORT`     | Server port         | No       | `64395`           |
+| `PORT`     | Server port         | No       | `64395` (configurable in `.env`) |
 | `TMDB_API` | TMDB API key        | **Yes**  | -                 |
-| `CONFIG_URL`| Configuration URL   | No       | `http://localhost:64395`|
+| `CONFIG_URL`| Configuration URL   | No       | `http://localhost:{PORT}` (configurable in `.env`)|
 
 ### Getting TMDB API Key
 
@@ -113,7 +124,7 @@ gestdown-subtitles/
 ### Adding to Stremio
 
 1. Start the addon server
-2. Visit the configuration page: `http://localhost:64395/configure`
+2. Visit the configuration page (e.g., `http://localhost:64395/configure`, depending on your `.env` file).
 3. Select your preferred subtitle language
 4. Click "Install to Stremio" - the addon will be automatically added
 
@@ -179,8 +190,9 @@ services:
     image: dydhzo/gestdown-subtitles:latest
     container_name: gestdown-subtitles
     ports:
-      - "64395:64395"  # Custom port
+      - "8080:8080"  # Example: Map container port 8080 to host port 8080
     environment:
+      - PORT=8080 # Tell the container to run on port 8080
       - TMDB_API=your_tmdb_api_key_here
       - CONFIG_URL=https://your-domain.com
     restart: unless-stopped
@@ -226,8 +238,8 @@ docker-compose up  # Start with Docker
 
 **Docker issues:**
 - Ensure Docker and Docker Compose are installed
-- Check if port 64395 is available
-- Verify environment variables in .env file
+- Check if the port specified in your `.env` file is available on your host machine.
+- Verify all required environment variables are set correctly in the `.env` file.
 
 ## 🙏 Acknowledgments
 
