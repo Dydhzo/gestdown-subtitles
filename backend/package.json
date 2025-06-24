@@ -1,6 +1,6 @@
 {
   "name": "gestdown-backend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Gestdown subtitles backend for Stremio",
   "main": "server.js",
   "scripts": {
