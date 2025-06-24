@@ -22,39 +22,44 @@ async function request(url, header) {
 async function getMeta(type, id) {
     if (!process.env.TMDB_API) {
         console.error("Error: TMDB API key is not defined. Set TMDB_API in your environment.");
-        return { title: id, slug: id }; // Return default value to avoid downstream errors
+        return null;
     }
 
-    if (type == "movie") {
-        let url = `${BaseURL}/movie/${id}?api_key=${process.env.TMDB_API}`;
-        let res = await request(url);
-        if (!res || !res.data) {
-            console.error(`No data received from TMDB for movie ID: ${id}`);
-            return { title: id, slug: id };
-        }
-        let title = res.data.original_title?.match(/[\u3400-\u9FBF]/) ? res.data.title : res.data.original_title;
-        if (!title) {
-            console.error(`Title not found for movie ID: ${id}`);
-            return { title: id, slug: id };
-        }
-        var slug = slugify(title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        return { title: title, slug: slug };
-    } else if (type == "series") {
-        let url = `${BaseURL}/find/${id}?api_key=${process.env.TMDB_API}&external_source=imdb_id`;
-        let res = await request(url);
-        if (!res || !res.data || !res.data.tv_results || res.data.tv_results.length === 0) {
-            console.error(`No data or series found on TMDB for ID: ${id}`);
-            return { title: id, slug: id };
-        }
-        let title = res.data.tv_results[0].original_name?.match(/[\u3400-\u9FBF]/) ? res.data.tv_results[0].name : res.data.tv_results[0].original_name;
-        if (!title) {
-            console.error(`Title not found for series ID: ${id}`);
-            return { title: id, slug: id };
-        }
-        var slug = slugify(title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        return { title: title, slug: slug };
+    let url;
+    if (type === "movie") {
+        url = `${BaseURL}/movie/${id}?api_key=${process.env.TMDB_API}`;
+    } else if (type === "series") {
+        url = `${BaseURL}/find/${id}?api_key=${process.env.TMDB_API}&external_source=imdb_id`;
+    } else {
+        console.error(`Unsupported type: ${type}`);
+        return null;
     }
-    return { title: id, slug: id }; // Default value if type not recognized
+
+    const res = await request(url);
+
+    if (!res || !res.data) {
+        console.error(`No data received from TMDB for ID: ${id}`);
+        return null;
+    }
+
+    let title;
+    if (type === "movie") {
+        title = res.data.original_title?.match(/[\u3400-\u9FBF]/) ? res.data.title : res.data.original_title;
+    } else if (type === "series") {
+        if (!res.data.tv_results || res.data.tv_results.length === 0) {
+            console.error(`No series found on TMDB for ID: ${id}`);
+            return null;
+        }
+        title = res.data.tv_results[0].original_name?.match(/[\u3400-\u9FBF]/) ? res.data.tv_results[0].name : res.data.tv_results[0].original_name;
+    }
+
+    if (!title) {
+        console.error(`Title not found for ID: ${id}`);
+        return null;
+    }
+
+    const slug = slugify(title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
+    return { title, slug };
 }
 
 

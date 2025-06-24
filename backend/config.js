@@ -1,4 +1,4 @@
-var env = process.env.NODE_ENV || 'local';
+var env = process.env.NODE_ENV || 'development';
 
 var config = {
     BaseURL: "https://api.gestdown.info",
@@ -6,19 +6,19 @@ var config = {
 }
 
 switch (env) {
-    case 'local':
+    case 'development':
         config.port = process.env.PORT || 64395;
-        config.local = "http://127.0.0.1:" + config.port;
-        console.log(`Local mode activated. Configuration URL: ${config.local}, Port: ${config.port}`);
+        config.addonUrl = "http://127.0.0.1:" + config.port;
+        console.log(`Development mode activated. Configuration URL: ${config.addonUrl}, Port: ${config.port}`);
         break;
     case 'production':
         config.port = process.env.PORT || 64395;
-        config.local = process.env.CONFIG_URL;
-        if (!config.local) {
+        config.addonUrl = process.env.CONFIG_URL;
+        if (!config.addonUrl) {
             console.error("FATAL ERROR: The CONFIG_URL environment variable is not set in production mode. The addon will not work without it.");
             process.exit(1);
         }
-        console.log(`Production mode activated. Configuration URL: ${config.local}, Port: ${config.port}`);
+        console.log(`Production mode activated. Configuration URL: ${config.addonUrl}, Port: ${config.port}`);
         break;
 }
 

@@ -49,37 +49,6 @@ async function searchShow(query, retries = 3) {
 }
 
 /**
- * Retrieves a series on Gestdown by its TVDB ID.
- * @param {string} tvdbId - The TVDB ID of the series.
- * @param {number} retries - Number of remaining attempts in case of rate limit (429).
- * @returns {Promise<string|null>} The unique ID of the series or null if not found or on error.
- */
-async function getShowByTvdbId(tvdbId, retries = 3) {
-    try {
-        const response = await axios.get(`${API_URL}/shows/external/tvdb/${tvdbId}`, {
-            headers: { 'accept': 'application/json' },
-            timeout: 10000
-        });
-        if (response.data && response.data.uniqueId) {
-            console.log(`Series found by TVDB ID: ${tvdbId} (Gestdown ID: ${response.data.uniqueId})`);
-            return response.data.uniqueId;
-        } else {
-            console.log(`No series found for TVDB ID: ${tvdbId}`);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error retrieving series by TVDB ID:', error.message);
-        if (error.response && error.response.status === 429 && retries > 0) {
-            const waitTime = Math.pow(2, 3 - retries) * 1000;
-            console.log(`Rate limit (429) reached for TVDB ID. Waiting ${waitTime/1000} seconds before retry (${retries} remaining).`);
-            await new Promise(resolve => setTimeout(resolve, waitTime));
-            return getShowByTvdbId(tvdbId, retries - 1);
-        }
-        return null;
-    }
-}
-
-/**
  * Retrieves subtitles for a specific episode of a series on Gestdown.
  * @param {string} showUniqueId - The unique ID of the series on Gestdown.
  * @param {string} season - Season number.
@@ -127,4 +96,4 @@ async function getSubtitles(showUniqueId, season, episode, language, retries = 3
     }
 }
 
-module.exports = { searchShow, getShowByTvdbId, getSubtitles };
+module.exports = { searchShow, getSubtitles };

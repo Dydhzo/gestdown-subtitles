@@ -30,7 +30,7 @@ gestdown-subtitles/
 │   │   └── router/         # Vue Router setup
 │   ├── public/             # Static assets
 │   └── dist/               # Built frontend (production)
-├── docker-compose.yaml      # Docker deployment
+├── docker-compose.yaml      # Docker Compose setup
 ├── Dockerfile             # Multi-stage Docker build
 └── .env                   # Environment configuration
 ```
@@ -46,7 +46,7 @@ gestdown-subtitles/
    ```
 
 2. **Configure environment:**
-   Create a `.env` file by copying `.env.example` (if it exists) or creating it from scratch. Then, edit it:
+   Create a `.env` file in the root directory and add the following configuration:
    ```env
    # The environment mode, 'production' or 'development'
    NODE_ENV=production
@@ -73,34 +73,29 @@ gestdown-subtitles/
 
 ### Option 2: Manual Development
 
-1. **Install dependencies:**
-   ```bash
-   # Backend
-   cd backend && npm install
+For those who want to modify the code.
 
-   # Frontend
-   cd ../frontend && npm install
-   ```
+1.  **Install All Dependencies:**
+    From the root directory, this single command will install everything needed.
+    ```bash
+    npm run install:all
+    ```
 
-2. **Configure environment:**
-   ```bash
-   Create a `.env` file in the root directory and configure it for development:
-   ```env
-   NODE_ENV=development
-   PORT=64395
-   TMDB_API=your_tmdb_api_key_here
-   CONFIG_URL=http://localhost:64395
-   ```
-   **Note:** The frontend dev server runs on port 3000 and will proxy requests to the backend on the `PORT` specified above.
+2.  **Configure Environment for Development:**
+    Create a `.env` file in the root directory and set the mode to `development`.
+    ```env
+    NODE_ENV=development
+    PORT=64395
+    TMDB_API=your_tmdb_api_key_here
+    CONFIG_URL=http://localhost:64395
+    ```
+    > **Note:** The frontend dev server runs on port 3000 and will proxy requests to the backend on the `PORT` specified above.
 
-3. **Start development servers:**
-   ```bash
-   # Backend (from backend directory)
-   npm start
-
-   # Frontend (from frontend directory)
-   npm run dev
-   ```
+3.  **Start Both Development Servers:**
+    From the root directory, this single command starts both the backend and frontend with live-reloading.
+    ```bash
+    npm run dev
+    ```
 
 ## 🔧 Configuration
 
@@ -192,6 +187,7 @@ services:
     ports:
       - "64395:64395"  # Example: Map container port 64395 to host port 64395
     environment:
+      - NODE_ENV=production
       - PORT=64395 # Tell the container to run on port 64395
       - TMDB_API=your_tmdb_api_key_here
       - CONFIG_URL=https://your-domain.com
@@ -208,19 +204,14 @@ services:
 
 ### Available Scripts
 
-```bash
-# Backend
-npm start          # Start production server
-npm run dev        # Start development server
+All scripts are meant to be run from the project's root directory.
 
-# Frontend
-npm run dev        # Start Vite dev server
-npm run build      # Build for production
-npm run preview    # Preview production build
-
-# Docker
-docker-compose up  # Start with Docker
-```
+| Script | Description |
+|---|---|
+| `npm run dev` | Starts both backend and frontend in development mode. |
+| `npm start` | Starts the backend server for production use. |
+| `npm run build` | Builds the frontend application for production. |
+| `npm run install:all` | Installs all dependencies for the root, backend, and frontend. |
 
 ## 🐛 Troubleshooting
 

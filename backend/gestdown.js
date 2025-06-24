@@ -73,7 +73,7 @@ async function subtitles(type, imdbid, lang) {
                     "User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
                 }
 
-                let proxyUrl = config.local + "/sub.vtt?"+sub2vtt.gerenateUrl(url, { proxy, lang });
+                let proxyUrl = config.addonUrl + "/sub.vtt?"+sub2vtt.gerenateUrl(url, { proxy, lang });
                 subs.push({
                     lang: languages[lang].iso || languages[lang].id || lang,
                     id: `${cachID}_${i}`,

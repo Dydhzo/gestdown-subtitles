@@ -20,8 +20,7 @@ app.use(cors())
 app.get('/sub.vtt', sub2vtt)
 
 app.get('/', (_, res) => {
-	res.redirect('/configure')
-	res.end();
+	res.redirect('/configure');
 });
 
 app.get('/:configuration?/configure', (req, res) => {
@@ -35,7 +34,6 @@ app.get('/manifest.json', (_, res) => {
 	res.setHeader('Content-Type', 'application/json');
 	manifest.behaviorHints.configurationRequired = true;
 	res.send(manifest);
-	res.end();
 });
 
 app.get('/:configuration?/manifest.json', (_, res) => {
@@ -43,7 +41,6 @@ app.get('/:configuration?/manifest.json', (_, res) => {
 	res.setHeader('Content-Type', 'application/json');
 	manifest.behaviorHints.configurationRequired = false;
 	res.send(manifest);
-	res.end();
 });
 
 app.get('/:configuration?/:resource/:type/:id/:extra?.json', (req, res) => {
@@ -54,8 +51,7 @@ app.get('/:configuration?/:resource/:type/:id/:extra?.json', (req, res) => {
     const { configuration, resource, type, id } = req.params;
     if (resource !== "subtitles") {
         console.log(`Ressource non prise en charge: ${resource}`);
-        res.send(JSON.stringify({ subtitles: [] }));
-        res.end();
+        res.send({ subtitles: [] });
         return;
     }
 
@@ -66,23 +62,19 @@ app.get('/:configuration?/:resource/:type/:id/:extra?.json', (req, res) => {
             subtitles(type, id, lang)
                 .then(subs => {
                     console.log(`Subtitles returned for ${id}: ${subs.length} results`);
-                    res.send(JSON.stringify({ subtitles: subs }));
-                    res.end();
+                    res.send({ subtitles: subs });
                 })
                 .catch(error => {
                     console.error(`Error retrieving subtitles for ${id}:`, error);
-                    res.send(JSON.stringify({ subtitles: [] }));
-                    res.end();
+                    res.send({ subtitles: [] });
                 });
         } else {
             console.log(`Langue non prise en charge: ${lang}`);
-            res.send(JSON.stringify({ subtitles: [] }));
-            res.end();
+            res.send({ subtitles: [] });
         }
     } else {
         console.log(`No language specified for ${id}, returning empty list`);
-        res.send(JSON.stringify({ subtitles: [] }));
-        res.end();
+        res.send({ subtitles: [] });
     }
 });
 
@@ -91,7 +83,6 @@ app.get('/languages.json', (_, res) => {
     res.setHeader('Cache-Control', 'max-age=86400,staleRevalidate=stale-while-revalidate, staleError=stale-if-error, public');
     res.setHeader('Content-Type', 'application/json');
     res.send(languages);
-    res.end();
 });
 
 module.exports = app

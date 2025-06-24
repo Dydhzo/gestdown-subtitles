@@ -1,6 +1,6 @@
 {
     "id": "community.gestdown-subtitles",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "name": "Gestdown Subtitles",
     "description": "Subtitle addon using the Gestdown API. For all your favorite series.",
     "logo": "https://raw.githubusercontent.com/Dydhzo/gestdown-subtitles/refs/heads/main/frontend/public/gestdown-logos.png",

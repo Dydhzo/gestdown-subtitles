@@ -161,7 +161,7 @@
             
             <div class="flex items-center space-x-2">
               <div class="w-2 h-2 bg-success-500 rounded-full animate-pulse"></div>
-              <span class="text-dark-500 text-xs font-medium">v1.1.0</span>
+              <span class="text-dark-500 text-xs font-medium">v1.1.1</span>
             </div>
           </div>
         </div>
